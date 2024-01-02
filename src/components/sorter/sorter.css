@@ -1,0 +1,200 @@
+.sorter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.sortButton {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.sortButton:hover {
+  background-color: #45a049;
+}
+
+/* Optional: Add styling for the arrow symbols */
+.sortButton::after {/* Add this styling to your existing CSS file or create a new one */
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5; /* Set a light background color */
+  }
+  
+  .app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh; /* Ensure the app takes at least the full height of the viewport */
+    background-color: #fff; /* Set a white background color */
+  }
+  
+  .container {
+    max-width: 600px;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .form {
+    margin-bottom: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+  }
+  
+  .label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  
+  .input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+  }
+  
+  .button {
+    background: #4caf50;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .contactList {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .contactItem {
+    margin-bottom: 15px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .editButton,
+  .deleteButton {
+    background: #2196F3;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .deleteButton {
+    background: #f44336;
+    margin-left: 5px;
+  }
+  
+  .sorter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .sortButton {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+  
+  .sortButton:hover {
+    background-color: #45a049;
+  }
+  
+  /* Optional: Add styling for the arrow symbols */
+  .sortButton::after {
+    content: '';
+    display: inline-block;
+    margin-left: 5px;
+    font-size: 12px;
+  }
+  
+  .sortButton[aria-sort='asc']::after {
+    content: '▲';
+  }
+  
+  .sortButton[aria-sort='desc']::after {
+    content: '▼';
+  }
+  
+  /* Responsive Design */
+  
+  @media screen and (max-width: 600px) {
+    .container {
+      padding: 10px;
+    }
+  
+    .form {
+      padding: 15px;
+    }
+  
+    .label,
+    .input {
+      font-size: 14px;
+    }
+  
+    .button {
+      padding: 10px;
+    }
+  
+    .contactItem {
+      padding: 10px;
+    }
+  
+    .editButton,
+    .deleteButton {
+      padding: 8px;
+    }
+  
+    .sortButton {
+      padding: 8px 12px;
+    }
+  }
+  
+  content: '';
+  display: inline-block;
+  margin-left: 5px;
+  font-size: 12px;
+}
+
+.sortButton[aria-sort='asc']::after {
+  content: '▲';
+}
+
+.sortButton[aria-sort='desc']::after {
+  content: '▼';
+}
