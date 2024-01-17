@@ -1,9 +1,8 @@
-// Import React and useState
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sorter from '../sorter/sorter';
-
-// Import the styles
+import { WiMoonAltWaningCrescent3 } from 'react-icons/wi';
 import './contact.css';
+import ContactModal from '../editModal/editModal';
 
 interface Contact {
   name: string;
@@ -13,7 +12,7 @@ interface Contact {
 
 interface ContactFormProps {
   addContact: (newContact: Contact) => void;
-  darkMode: boolean; // Add darkMode prop
+  darkMode: boolean;
 }
 
 interface ContactListProps {
@@ -21,28 +20,82 @@ interface ContactListProps {
   editContact: (index: number) => void;
   deleteContact: (index: number) => void;
   setContacts: React.Dispatch<React.SetStateAction<Contact[]>>;
-  darkMode: boolean; // Add darkMode prop
-  toggleDarkMode: () => void; // Add toggleDarkMode prop
+  darkMode: boolean;
+  toggleDarkMode: () => void;
 }
+
+// Pagination component
+interface PaginationProps {
+  contactsPerPage: number;
+  totalContacts: number;
+  paginate: (pageNumber: number) => void;
+  currentPage: number;
+}
+
+const Pagination: React.FC<PaginationProps> = ({ contactsPerPage, totalContacts, paginate, currentPage }) => {
+  const pageNumbers = [];
+
+  for (let i = 1; i <= Math.ceil(totalContacts / contactsPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
+  return (
+    <nav>
+      <ul className="pagination">
+        {pageNumbers.map((number) => (
+          <li key={number} className={number === currentPage ? 'active' : ''}>
+            <a href="#" onClick={() => paginate(number)}>
+              {number}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+};
 
 const ContactForm: React.FC<ContactFormProps> = ({ addContact, darkMode }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [nameError, setNameError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [phoneError, setPhoneError] = useState('');
 
-  const handleAddContact = () => {
+  const validateForm = () => {
+    let isValid = true;
+    setNameError('');
+    setEmailError('');
+    setPhoneError('');
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const phoneRegex = /^\d{10}$/;
+    const phoneRegex = /^\d{10,15}$/;
 
-    if (!name || !emailRegex.test(email) || !phoneRegex.test(phone)) {
-      alert('Please enter valid details');
-      return;
+    if (!name) {
+      setNameError('Name is required');
+      isValid = false;
     }
 
-    addContact({ name, email, phone });
-    setName('');
-    setEmail('');
-    setPhone('');
+    if (!emailRegex.test(email)) {
+      setEmailError('Please enter a valid email address');
+      isValid = false;
+    }
+
+    if (!phoneRegex.test(phone)) {
+      setPhoneError('Please enter a valid phone number (10 to 15 digits)');
+      isValid = false;
+    }
+
+    return isValid;
+  };
+
+  const handleAddContact = () => {
+    if (validateForm()) {
+      addContact({ name, email, phone });
+      setName('');
+      setEmail('');
+      setPhone('');
+    }
   };
 
   return (
@@ -51,10 +104,16 @@ const ContactForm: React.FC<ContactFormProps> = ({ addContact, darkMode }) => {
         <h2>Add New Contact</h2>
         <label className="label">Name:</label>
         <input className="input" type="text" value={name} onChange={(e) => setName(e.target.value)} />
+        <div style={{ color: 'red' }}>{nameError}</div>
+
         <label className="label">Email:</label>
         <input className="input" type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
+        <div style={{ color: 'red' }}>{emailError}</div>
+
         <label className="label">Phone:</label>
         <input className="input" type="text" value={phone} onChange={(e) => setPhone(e.target.value)} />
+        <div style={{ color: 'red' }}>{phoneError}</div>
+
         <button className="button" onClick={handleAddContact}>
           Add Contact
         </button>
@@ -65,8 +124,18 @@ const ContactForm: React.FC<ContactFormProps> = ({ addContact, darkMode }) => {
 
 const ContactList: React.FC<ContactListProps> = ({ contacts, editContact, deleteContact, setContacts, darkMode, toggleDarkMode }) => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const contactsPerPage = 5;
 
-  const filteredContacts = contacts.filter(
+  const indexOfLastContact = currentPage * contactsPerPage;
+  const indexOfFirstContact = indexOfLastContact - contactsPerPage;
+  const currentContacts = contacts.slice(indexOfFirstContact, indexOfLastContact);
+
+  const paginate = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const filteredContacts = currentContacts.filter(
     (contact) =>
       contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       contact.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -98,6 +167,12 @@ const ContactList: React.FC<ContactListProps> = ({ contacts, editContact, delete
             </li>
           ))}
         </ul>
+        <Pagination
+          contactsPerPage={contactsPerPage}
+          totalContacts={contacts.length}
+          paginate={paginate}
+          currentPage={currentPage}
+        />
       </div>
     </div>
   );
@@ -106,25 +181,52 @@ const ContactList: React.FC<ContactListProps> = ({ contacts, editContact, delete
 const Contact: React.FC = () => {
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [darkMode, setDarkMode] = useState(false);
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    const storedContacts = localStorage.getItem('contacts');
+    if (storedContacts) {
+      setContacts(JSON.parse(storedContacts));
+    }
+  }, []);
+
+  const saveContactsToLocalStorage = (updatedContacts: Contact[]) => {
+    localStorage.setItem('contacts', JSON.stringify(updatedContacts));
+  };
 
   const addContact = (newContact: Contact) => {
-    setContacts([...contacts, newContact]);
+    const updatedContacts = [...contacts, newContact];
+    setContacts(updatedContacts);
+    saveContactsToLocalStorage(updatedContacts);
+  };
+
+  const openEditModal = (index: number) => {
+    setEditingIndex(index);
+  };
+
+  const closeEditModal = () => {
+    setEditingIndex(null);
+  };
+
+  const saveEditedContact = (updatedContact: Contact) => {
+    if (editingIndex !== null) {
+      const updatedContacts = [...contacts];
+      updatedContacts[editingIndex] = updatedContact;
+      setContacts(updatedContacts);
+      saveContactsToLocalStorage(updatedContacts);
+      closeEditModal();
+    }
   };
 
   const editContact = (index: number) => {
-    const updatedContacts = [...contacts];
-    const updatedContact = prompt('Enter updated contact details (name, email, phone):');
-    if (updatedContact) {
-      const [name, email, phone] = updatedContact.split(',');
-      updatedContacts[index] = { name, email, phone };
-      setContacts(updatedContacts);
-    }
+    openEditModal(index);
   };
 
   const deleteContact = (index: number) => {
     const updatedContacts = [...contacts];
     updatedContacts.splice(index, 1);
     setContacts(updatedContacts);
+    saveContactsToLocalStorage(updatedContacts);
   };
 
   const toggleDarkMode = () => {
@@ -133,9 +235,7 @@ const Contact: React.FC = () => {
 
   return (
     <div className={`app ${darkMode ? 'dark-mode' : ''}`}>
-      <button className="dark-mode-toggle" onClick={toggleDarkMode}>
-        Toggle Dark Mode
-      </button>
+      <WiMoonAltWaningCrescent3 className='text-blue-400 text-xl' onClick={toggleDarkMode} />
       <ContactForm addContact={addContact} darkMode={darkMode} />
       <ContactList
         contacts={contacts}
@@ -145,6 +245,14 @@ const Contact: React.FC = () => {
         darkMode={darkMode}
         toggleDarkMode={toggleDarkMode}
       />
+      {editingIndex !== null && (
+        <ContactModal
+          isOpen={editingIndex !== null}
+          onClose={closeEditModal}
+          onSave={saveEditedContact}
+          contact={contacts[editingIndex]}
+        />
+      )}
     </div>
   );
 };

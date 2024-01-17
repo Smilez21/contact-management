@@ -1,4 +1,3 @@
-
 body {
     margin: 0;
     padding: 0;
@@ -12,6 +11,11 @@ body {
     align-items: center;
     min-height: 100vh; /* Ensure the app takes at least the full height of the viewport */
     background-color: #fff; /* Set a white background color */
+  }
+  
+  .app.dark-mode {
+    background-color: #1a1a1a; /* New dark mode color for the app */
+    color: #fff;
   }
   
   .container {
@@ -29,10 +33,20 @@ body {
     background-color: #fff;
   }
   
+  .form.dark-mode {
+    border: 1px solid #666;
+    background-color: #2c3e50; /* New dark mode color */
+  }
+  
   .label {
     display: block;
     margin-bottom: 10px;
     font-weight: bold;
+    color: #333;
+  }
+  
+  .label.dark-mode {
+    color: #fff;
   }
   
   .input {
@@ -43,6 +57,12 @@ body {
     border: 1px solid #ccc;
   }
   
+  .input.dark-mode {
+    background-color: #34495e; /* New dark mode color */
+    color: #fff;
+    border: 1px solid #666;
+  }
+  
   .button {
     background: #4caf50;
     color: white;
@@ -50,6 +70,11 @@ body {
     border: none;
     border-radius: 3px;
     cursor: pointer;
+  }
+  
+  .button.dark-mode {
+    background: #27ae60; /* New dark mode color */
+    color: white;
   }
   
   .contactList {
@@ -68,6 +93,23 @@ body {
     align-items: center;
   }
   
+  .contactItem.dark-mode {
+    background-color: #34495e; /* New dark mode color */
+    border: 1px solid #666;
+  }
+  
+  .contactName,
+  .contactEmail,
+  .contactPhone {
+    color: #333;
+  }
+  
+  .contactName.dark-mode,
+  .contactEmail.dark-mode,
+  .contactPhone.dark-mode {
+    color: #fff;
+  }
+  
   .editButton,
   .deleteButton {
     background: #2196F3;
@@ -78,9 +120,19 @@ body {
     cursor: pointer;
   }
   
+  .editButton.dark-mode,
+  .deleteButton.dark-mode {
+    background: #2980b9; /* New dark mode color */
+    color: white;
+  }
+  
   .deleteButton {
     background: #f44336;
     margin-left: 5px;
+  }
+  
+  .deleteButton.dark-mode {
+    background: #c0392b; /* New dark mode color */
   }
   
   .dark-mode {
@@ -88,21 +140,56 @@ body {
     color: #fff;
   }
   
-  .dark-mode input,
-  .dark-mode button {
+  .app.dark-mode {
+    background-color: #1a1a1a; /* New dark mode color for the app */
+  }
+  
+  .container.dark-mode {
+    background-color: #4d4d4d; /* New dark mode color */
+    color: #fff;
+    border: 1px solid #666;
+  }
+  
+  .form.dark-mode {
+    border: 1px solid #666;
+    background-color: #2c3e50; /* New dark mode color */
+  }
+  
+  .label.dark-mode {
+    color: #fff;
+  }
+  
+  .input.dark-mode {
+    background-color: #34495e; /* New dark mode color */
+    color: #fff;
+    border: 1px solid #666;
+  }
+  
+  .button.dark-mode {
+    background: #27ae60; /* New dark mode color */
+    color: white;
+  }
+  
+  .contactItem.dark-mode {
+    background-color: #34495e; /* New dark mode color */
+    border: 1px solid #666;
+  }
+  
+  .editButton.dark-mode,
+  .deleteButton.dark-mode {
+    background: #2980b9; /* New dark mode color */
+    color: white;
+  }
+  
+  .deleteButton.dark-mode {
+    background: #c0392b; /* New dark mode color */
+  }
+  
+  .dark-mode-toggle.dark-mode {
     background-color: #555;
     color: #fff;
   }
   
-  .dark-mode-toggle {
-    background-color: #555;
-    color: #fff;
-    margin-bottom: 20px;
-    padding: 10px;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-  }
   .input-search {
     padding: 10px;
     width: 100%;
@@ -113,20 +200,86 @@ body {
     outline: none;
   }
   
-  /* Add styles for the placeholder text inside the search input */
   .input-search::placeholder {
     color: #aaa;
   }
   
-  /* Add styles for the input on focus */
   .input-search:focus {
     border-color: #007bff;
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
   }
   
-  /* Additional styling for the search input */
   .container.dark-mode .input-search {
     background-color: #333;
     color: #fff;
     border-color: #555;
   }
+  
+  .form-header {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .form-header.dark-mode {
+    color: #fff;
+  }
+  contactList.dark-mode {
+    background-color: #34495e; /* Adjust this color to your preferred dark mode background color */
+  }
+  
+  .contactItem {
+    margin-bottom: 15px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .contactItem.dark-mode {
+    background-color: #34495e; /* Adjust this color to your preferred dark mode background color */
+    border: 1px solid #666;
+  }
+  
+  .contactItem.dark-mode button {
+    background: #2980b9; /* Adjust this color to your preferred dark mode button background color */
+    color: white;
+  }
+  
+  .contactItem.dark-mode button.deleteButton {
+    background: #c0392b; /* Adjust this color to your preferred dark mode delete button background color */
+  }  
+
+  .pagination {
+    display: flex;
+    list-style: none;
+    margin: 10px 0;
+    padding: 0;
+  }
+  
+  .pagination li {
+    margin-right: 5px;
+  }
+  
+  .pagination a {
+    text-decoration: none;
+    color: #333;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .pagination a:hover {
+    background-color: #ddd;
+  }
+  
+  .pagination .active a {
+    background-color: #4caf50;
+    color: white;
+  }
+  
