@@ -132,7 +132,7 @@ const ContactList: React.FC<ContactListProps> = ({ contacts, editContact, delete
   const currentContacts = contacts.slice(indexOfFirstContact, indexOfLastContact);
 
   const paginate = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
+    setCurrentPage(pageNumber); 
   };
 
   const filteredContacts = currentContacts.filter(
