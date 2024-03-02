@@ -138,7 +138,7 @@ const ContactList: React.FC<ContactListProps> = ({ contacts, editContact, delete
   const filteredContacts = currentContacts.filter(
     (contact) =>
       contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      contact.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      contact.email.toLowerCase().includes(searchTerm.toLowerCase()) || 
       contact.phone.includes(searchTerm)
   );
 
