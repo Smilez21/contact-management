@@ -93,7 +93,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ addContact, darkMode }) => {
     if (validateForm()) {
       addContact({ name, email, phone });
       setName('');
-      setEmail('');
+      setEmail(''); 
       setPhone('');
     }
   };
