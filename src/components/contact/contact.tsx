@@ -91,7 +91,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ addContact, darkMode }) => {
 
   const handleAddContact = () => {
     if (validateForm()) {
-      addContact({ name, email, phone });
+      addContact({ name, email, phone }); 
       setName('');
       setEmail(''); 
       setPhone('');
